@@ -1,0 +1,25 @@
+{
+  "name": "gulp-systemjs-builder",
+  "version": "0.15.0",
+  "description": "A tiny wrapper around SystemJS builder .bundle and .buildStatic methods",
+  "main": "index.js",
+  "keywords": [
+    "gulpplugin"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Openmarco",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openmarco/gulp-systemjs-builder.git"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "gulp-util": "^3.0.7",
+    "systemjs-builder": "^0.15.32",
+    "through-gulp": "^0.5.0"
+  }
+}
