@@ -17,11 +17,24 @@ function systemjsBuilder(baseURL, cfg) {
 
 		var stream = through(function (file, encoding, cb) {
 			builder[buildMethod](inputFile, opts).then(function (output) {
-				var noArithmetic = inputFile.search(/( [-+&] )|[*]/) == -1
+				var noArithmetic = inputFile.search(/( [-+&] )|[*]/) == -1,
+                    sourceDest = outFile || noArithmetic && inputFile || 'build.js',
+                    sourceMapDest = sourceDest + '.map';
+                
+                if (output.sourceMap) {
+                    stream.push(new gutil.File({
+                        cwd: "",
+                        base: "",
+                        path: sourceMapDest,
+                        contents: new Buffer(output.sourceMap.toString())
+                    }));
+                    output.source += '\n//# sourceMappingURL=' + sourceMapDest;
+                }
+
 				stream.push(new gutil.File({
 					cwd:  "",
 					base: "",
-					path: outFile || noArithmetic && inputFile || 'build.js',
+					path: sourceDest,
 					contents: new Buffer(output.source)
 				}));
 
