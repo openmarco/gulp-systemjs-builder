@@ -26,7 +26,10 @@ function systemjsBuilder(baseURL, cfg) {
 				}));
 
 				cb();
-			})
+			}).catch(function (err) {
+				// be sure to bubble the error up to callback
+				cb(err);
+			});
 		})
 
 		stream.write(new gutil.File({
