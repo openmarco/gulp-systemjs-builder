@@ -17,15 +17,21 @@ function systemjsBuilder(baseURL, cfg) {
 
 		var stream = through(function (file, encoding, cb) {
 			builder[buildMethod](inputFile, opts).then(function (output) {
-				var noArithmetic = inputFile.search(/( [-+&] )|[*]/) == -1
-				stream.push(new gutil.File({
-					cwd:  "",
-					base: "",
-					path: outFile || noArithmetic && inputFile || 'build.js',
-					contents: new Buffer(output.source)
-				}));
+                var noArithmetic = inputFile.search(/( [-+&] )|[*]/) == -1;
+                var vinyl = new gutil.File({
+                    cwd: "",
+                    base: "",
+                    path: outFile || noArithmetic && inputFile || 'build.js',
+                    contents: new Buffer(output.source)
+                });
 
-				cb();
+                if (!!output.sourceMap) {
+                    vinyl.sourceMap = output.sourceMap.get().toJSON();
+                }
+
+                stream.push(vinyl);
+
+                cb();
 			})
 		})
 

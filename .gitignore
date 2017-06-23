@@ -1,3 +1,4 @@
 gulpfile.js
 system.config.js
 node_modules/
+.idea/
